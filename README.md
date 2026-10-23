@@ -1,6 +1,6 @@
 # Gift Genie
 
-A small AI-powered gift recommendation app built during the Intro to AI Engineering course. The app uses a Vite frontend and an Express backend to send prompts to an OpenAI-compatible AI provider.
+Gift Genie turns details like a recipient's interests, budget, and location into thoughtful, practical gift suggestions. It pairs a lightweight browser interface with an Express API and Groq's OpenAI-compatible chat completions API.
 
 ## Tech stack
 
