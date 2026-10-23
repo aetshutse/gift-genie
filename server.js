@@ -1,9 +1,11 @@
 import express from "express";
+import { rateLimit } from "express-rate-limit";
 import OpenAI from "openai";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json());
 
 const publicDirectory = path.join(
@@ -36,8 +38,18 @@ constrained context.
 After the gift ideas, include a section titled "Questions for you"
 with clarifying questions that would help improve the recommendations.`;
 
+const giftRequestLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    message: "Too many requests. Please try again in 15 minutes.",
+  },
+});
+
 // Challenge: See challenge.md for instructions
-app.post("/api/gift", async (req, res) => {
+app.post("/api/gift", giftRequestLimiter, async (req, res) => {
   const { userPrompt } = req.body;
   if (typeof userPrompt !== "string" || !userPrompt.trim()) {
     return res.status(400).json({ message: "Please provide a gift request." });

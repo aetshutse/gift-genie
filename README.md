@@ -2,6 +2,10 @@
 
 Gift Genie turns details like a recipient's interests, budget, and location into thoughtful, practical gift suggestions. It pairs a lightweight browser interface with an Express API and Groq's OpenAI-compatible chat completions API.
 
+## Live demo
+
+Try Gift Genie: [gift-genie-g0uu.onrender.com](https://gift-genie-g0uu.onrender.com)
+
 ## Tech stack
 
 - Frontend: Vite + vanilla JavaScript
