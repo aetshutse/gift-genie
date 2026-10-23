@@ -10,11 +10,7 @@ const openai = new OpenAI({
   baseURL: process.env.AI_URL,
 });
 
-// Initialize messages array with system prompt
-const messages = [
-  {
-    role: "system",
-    content: `You are the Gift Genie. 
+const systemPrompt = `You are the Gift Genie.
 
 You generate gift ideas that feel thoughtful, specific, and genuinely useful.
 Your output must be in structured Markdown.
@@ -31,36 +27,34 @@ under each gift that guides the user to get the gift in that
 constrained context.
 
 After the gift ideas, include a section titled "Questions for you"
-with clarifying questions that would help improve the recommendations.`,
-  },
-];
+with clarifying questions that would help improve the recommendations.`;
 
 // Challenge: See challenge.md for instructions
 app.post("/api/gift", async (req, res) => {
-  // Extract userPrompt from req.body and add to messages
-  const { userPrompt } = req.body
-
-  messages.push({
-    role: "user",
-    content: userPrompt
-  })
+  const { userPrompt } = req.body;
+  if (typeof userPrompt !== "string" || !userPrompt.trim()) {
+    return res.status(400).json({ message: "Please provide a gift request." });
+  }
 
   try {
     // Send chat completions request
     const response = await openai.chat.completions.create({
       model: process.env.AI_MODEL,
-      messages,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt.trim() },
+      ],
     });
 
     // Extract content and send back as JSON
-    const giftSuggestions = response.choices[0].message.content
-    console.log(giftSuggestions)
+    const giftSuggestions = response.choices[0].message.content;
 
     res.json({ giftSuggestions });
   } catch (e) {
-    console.error(e)
-    res.status(500).json({ message: `It's not you, it's us. 
-    Something went wrong on the server` })
+    console.error(e);
+    res.status(500).json({
+      message: "It's not you, it's us. Something went wrong on the server.",
+    });
   }
 });
 
