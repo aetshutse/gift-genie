@@ -48,7 +48,7 @@ Get an API key from [Groq Console](https://console.groq.com/keys). Use a model I
 5. Start the app:
 
 ```powershell
-npm.cmd run start
+npm.cmd run dev
 ```
 
 This runs both:
@@ -76,8 +76,11 @@ To create a production bundle:
 npm.cmd run build
 ```
 
-To preview the production build locally:
+To run the production app locally, first build it, then start the Express server:
 
 ```powershell
-npm.cmd run preview
+npm.cmd run build
+npm.cmd start
 ```
+
+The Express server serves the built frontend and the `/api/gift` endpoint from the same origin. Set `AI_KEY`, `AI_URL`, and `AI_MODEL` in the deployment platform's environment settings; do not upload `.env`.

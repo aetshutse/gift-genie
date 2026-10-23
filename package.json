@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run client\" \"npm run server\" ",
+    "start": "node server.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "server": "node --env-file=.env --watch server.js",
     "client": "vite",
     "build": "vite build",

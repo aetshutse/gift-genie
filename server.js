@@ -1,8 +1,15 @@
 import express from "express";
 import OpenAI from "openai";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const app = express();
 app.use(express.json());
+
+const publicDirectory = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "dist"
+);
 
 // Initialize an OpenAI client for your provider using env vars
 const openai = new OpenAI({
@@ -56,6 +63,14 @@ app.post("/api/gift", async (req, res) => {
       message: "It's not you, it's us. Something went wrong on the server.",
     });
   }
+});
+
+app.use(express.static(publicDirectory));
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api/")) {
+    return next();
+  }
+  res.sendFile(path.join(publicDirectory, "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;
