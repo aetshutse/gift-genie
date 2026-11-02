@@ -6,6 +6,10 @@ Gift Genie turns details like a recipient's interests, budget, and location into
 
 Try Gift Genie: [gift-genie-g0uu.onrender.com](https://gift-genie-g0uu.onrender.com)
 
+## Demo
+
+![Gift Genie demo](assets/demo.gif)
+
 ## Tech stack
 
 - Frontend: Vite + vanilla JavaScript
@@ -43,7 +47,7 @@ Copy-Item .env.example .env
 ```env
 AI_KEY=your_groq_api_key_here
 AI_URL=https://api.groq.com/openai/v1
-AI_MODEL=llama-3.3-70b-versatile
+AI_MODEL=openai/gpt-oss-20b
 PORT=3001
 ```
 
